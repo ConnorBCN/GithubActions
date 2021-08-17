@@ -72,3 +72,38 @@ module TestvNet './Template/vNet.bicep' = {
   }
   scope: resourceGroup(Test_ResourceGroup)
 }
+
+
+
+module MyPeering './Template/Peering.bicep' = {
+  name: 'MyvNetPeering'
+  params: {
+    allowForwardedTraffic: true
+    allowGatewayTransit: false
+    allowVirtualNetworkAccess: true
+    remoteResourceGroup: 'rg-${companyPrefix}-network'
+    remoteVirtualNetworkName: 'vnet-${companyPrefix}-001'
+    useRemoteGateways: false
+    virtualNetworkName: MyvNet.outputs.name
+  }
+  dependsOn: [
+    MyvNet
+  ]
+  scope: resourceGroup(My_ResourceGroup)
+}
+module TestPeering './Template/Peering.bicep' = {
+  name: 'TestvNetPeering'
+  params: {
+    allowForwardedTraffic: true
+    allowGatewayTransit: true
+    allowVirtualNetworkAccess: true
+    remoteResourceGroup: 'rg-${companyPrefix}-network'
+    remoteVirtualNetworkName: 'vnet-${companyPrefix}-001'
+    useRemoteGateways: false
+    virtualNetworkName: MyvNet.outputs.name
+  }
+  dependsOn: [
+    MyPeering
+  ]
+  scope: resourceGroup(Test_ResourceGroup)
+}
