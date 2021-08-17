@@ -27,4 +27,12 @@ jobs:
         region: UK West
         template: ./ResourceGroup/ResourceGroup.bicep
 
+
+   - name: Deploy virtual network
+      uses: azure/arm-deploy@main
+      with:
+        scope: subscription
+        subscriptionId: 36488cb1-7df3-42aa-b050-30d1dc788dce
+        region: Uk West
+        template: ./Network/DeployNetwork.bicep
         #testingwithconnmorr

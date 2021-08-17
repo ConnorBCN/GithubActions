@@ -1,26 +1,74 @@
-module CitrixvNet './Template/vNet.bicep' = {
-  name: 'Citrix-vNet-Deployment'
+
+targetScope = 'subscription'
+param companyPrefix string = 'bicep'
+var Location = 'Uk West'
+var Test_ResourceGroup = 'rg-${companyPrefix}-Network'
+var Test_vNet_Name = 'vnet-${companyPrefix}-Test-001'
+var Test_vNet_Prefix = '10.16.0.0/16'
+var Test_vNet_Subnets = [
+  {
+    name: 'GatewaySubnet'
+    prefix: '10.16.0.0/26'
+  }
+  {
+    name: 'snet-sharedservices-adds-001'
+    prefix: '10.16.0.64/26'
+  }      
+]
+//var Test_vNet_dnsServers = [
+ // '192.168.10.10'
+]
+var My_ResourceGroup = 'rg-${companyPrefix}-Network'
+var My_vNetName = 'vnet-${companyPrefix}-001'
+var My_vNet_Prefix = '10.17.0.0/16'
+var My_vNet_Subnets = [
+  {
+    name: 'snet-001'
+    prefix: '10.17.0.0/26'
+  }
+  {
+    name: 'snet-002'
+    prefix: '10.17.1.0/24'
+  }
+  {
+    name: 'snet--003'
+    prefix: '10.17.2.0/24'
+  }
+]
+//var My_vNet_dnsServers = [
+  //'192.168.10.10'
+]
+
+
+
+
+
+
+
+
+module MyvNet './Template/vNet.bicep' = {
+  name: 'My-vNet-Deployment'
   params: {
-    dnsServers: Citrix_vNet_dnsServers
+    //dnsServers: vNet_dnsServers
      Location: Location
-     Subnets: Citrix_vNet_Subnets
-     Name: Citrix_vNetName
-     Prefix: Citrix_vNet_Prefix
+     Subnets: My_vNet_Subnets
+     Name: My_vNetName
+     Prefix: My_vNet_Prefix
   }
   dependsOn: [
-    SharedservicevNet
+    TestvNet
   ]
-  scope: resourceGroup(Citrix_ResourceGroup)
+  scope: resourceGroup(My_ResourceGroup)
 }
  
-module SharedservicevNet './Template/vNet.bicep' = {
-  name: 'Sharedservice-vNet-Deployment'
+module TestvNet './Template/vNet.bicep' = {
+  name: 'Test-vNet-Deployment'
   params: {
-    dnsServers: Sharedservice_vNet_dnsServers
+    //dnsServers: vNet_dnsServers
      Location: Location
-     Subnets: Sharedservice_vNet_Subnets
-     Name: Sharedservice_vNet_Name
-     Prefix: Sharedservice_vNet_Prefix
+     Subnets: Test_vNet_Subnets
+     Name: Test_vNet_Name
+     Prefix: Test_vNet_Prefix
   }
-  scope: resourceGroup(Sharedservice_ResourceGroup)
+  scope: resourceGroup(Test_ResourceGroup)
 }

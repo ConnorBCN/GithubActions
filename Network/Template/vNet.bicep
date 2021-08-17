@@ -2,7 +2,7 @@ param Name string
 param Prefix string 
 param Subnets array
 param Location string
-param dnsServers array
+//param dnsServers array
  
 resource vnet 'Microsoft.Network/virtualNetworks@2021-02-01' = {
   name: Name
@@ -14,7 +14,7 @@ resource vnet 'Microsoft.Network/virtualNetworks@2021-02-01' = {
       ]
     }
     dhcpOptions: {
-      dnsServers: dnsServers
+      //dnsServers: dnsServers
     }
     subnets: [for Subnet in Subnets: {
       name: Subnet.name
