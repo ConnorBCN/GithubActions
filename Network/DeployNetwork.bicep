@@ -82,7 +82,7 @@ module MyPeering './Template/Peering.bicep' = {
     allowGatewayTransit: false
     allowVirtualNetworkAccess: true
     remoteResourceGroup: 'rg-${companyPrefix}-network'
-    remoteVirtualNetworkName: 'vnet-${companyPrefix}-001'
+    remoteVirtualNetworkName: 'vnet-${companyPrefix}-Test-001'
     useRemoteGateways: false
     virtualNetworkName: MyvNet.outputs.name
   }
