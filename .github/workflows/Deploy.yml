@@ -21,7 +21,7 @@ jobs:
     - name: Login to Azure
       uses: azure/login@v1
       with:
-        creds: ${{ secrets.AZURE_CREDENTIALS_BLOGSERIES }}
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
  
     - name: Deploy resource group
       uses: azure/arm-deploy@main
