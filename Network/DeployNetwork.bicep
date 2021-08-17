@@ -17,7 +17,7 @@ var Test_vNet_Subnets = [
 ]
 //var Test_vNet_dnsServers = [
  // '192.168.10.10'
-]
+//]
 var My_ResourceGroup = 'rg-${companyPrefix}-Network'
 var My_vNetName = 'vnet-${companyPrefix}-001'
 var My_vNet_Prefix = '10.17.0.0/16'
@@ -37,7 +37,7 @@ var My_vNet_Subnets = [
 ]
 //var My_vNet_dnsServers = [
   //'192.168.10.10'
-]
+//]
 
 
 
