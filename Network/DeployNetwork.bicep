@@ -100,7 +100,7 @@ module TestPeering './Template/Peering.bicep' = {
     remoteResourceGroup: 'rg-${companyPrefix}-network'
     remoteVirtualNetworkName: 'vnet-${companyPrefix}-001'
     useRemoteGateways: false
-    virtualNetworkName: MyvNet.outputs.name
+    virtualNetworkName: TestvNet.outputs.name
   }
   dependsOn: [
     MyPeering
