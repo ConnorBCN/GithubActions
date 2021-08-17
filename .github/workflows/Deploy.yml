@@ -19,7 +19,7 @@ jobs:
     - uses: actions/checkout@master
     - uses: azure/login@v1
       with:
-        creds: ${{ secrets.AZURE_CREDENTIALS_BLOGSERIES }}
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
     - uses: azure/arm-deploy@main
       with:
         scope: subscription
