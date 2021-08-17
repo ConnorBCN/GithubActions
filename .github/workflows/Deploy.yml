@@ -22,8 +22,8 @@ jobs:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
     - uses: azure/arm-deploy@main
       with:
-        scope: 36488cb1-7df3-42aa-b050-30d1dc788dce
-        subscriptionId: ${{ secrets.AZURE_SUBSCRIPTION }}
+        scope: subscription
+        subscriptionId: 36488cb1-7df3-42aa-b050-30d1dc788dce
         region: UK West
         template: ./ResourceGroup/ResourceGroup.bicep
 
