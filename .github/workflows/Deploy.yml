@@ -27,4 +27,4 @@ jobs:
         region: westeurope
         template: ./ResourceGroup/ResourceGroup.bicep
 
-        #CJM
+        #CM
