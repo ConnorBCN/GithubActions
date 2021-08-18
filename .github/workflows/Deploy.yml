@@ -17,22 +17,24 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@master
-    - uses: azure/login@v1
+ 
+    - name: Login to Azure
+      uses: azure/login@v1
       with:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
-    - uses: azure/arm-deploy@main
+ 
+    - name: Deploy resource group
+      uses: azure/arm-deploy@main
       with:
         scope: subscription
         subscriptionId: 36488cb1-7df3-42aa-b050-30d1dc788dce
-        region: UK West
+        region: Uk West
         template: ./ResourceGroup/ResourceGroup.bicep
-
-
-   - name: Deploy virtual network
+ 
+    - name: Deploy virtual network
       uses: azure/arm-deploy@main
       with:
         scope: subscription
         subscriptionId: 36488cb1-7df3-42aa-b050-30d1dc788dce
         region: Uk West
         template: ./Network/DeployNetwork.bicep
-        #testingwithconnmorr
