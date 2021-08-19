@@ -44,7 +44,7 @@ jobs:
       with:
         scope: resourcegroup
         resourceGroupName: rg-bicep-Network
-        subscriptionId: 36488cb1-7df3-42aa-b050-30d1dc788dce
+        subscriptionId: ${{ secrets.AZURE_SUBSCRIPTION }}
         region: Uk West
         template: ./Network/DeployVPN.bicep
         deploymentMode: incremental
