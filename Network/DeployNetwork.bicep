@@ -95,16 +95,16 @@ module ProdPeering './Template/Peering.bicep' = {
   ]
   scope: resourceGroup(Prod_ResourceGroup)
 }
-module SharedservicePeering './Template/Peering.bicep' = {
-  name: 'SharedServicevNetPeering'
+module HubPeering './Template/Peering.bicep' = {
+  name: 'HubvNetPeering'
   params: {
     allowForwardedTraffic: true
     allowGatewayTransit: true
     allowVirtualNetworkAccess: true
     remoteResourceGroup: 'rg-${companyPrefix}-network'
-    remoteVirtualNetworkName: 'vnet-${companyPrefix}-Hub'
+    remoteVirtualNetworkName: 'vnet-${companyPrefix}-Prod'
     useRemoteGateways: false
-    virtualNetworkName: ProdvNet.outputs.name
+    virtualNetworkName: HubvNet.outputs.name
   }
   dependsOn: [
     ProdPeering
