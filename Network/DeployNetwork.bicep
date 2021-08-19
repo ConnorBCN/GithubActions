@@ -2,7 +2,7 @@
 targetScope = 'subscription'
 param companyPrefix string = 'bicep'
 var Location = 'Uk West'
-var Network_ResourceGroup = 'rg-${companyPrefix}-Network'
+var Hub_ResourceGroup = 'rg-${companyPrefix}-Network'
 var Hub_vNet_Name = 'vnet-${companyPrefix}-Hub'
 var Hub_vNet_Prefix = '10.16.0.0/16'
 var Hub_vNet_Subnets = [
@@ -74,7 +74,7 @@ module HubvNet './Template/vNet.bicep' = {
      Name: Hub_vNet_Name
      Prefix: Hub_vNet_Prefix
   }
-  scope: resourceGroup(Network_ResourceGroup)
+  scope: resourceGroup(Hub_ResourceGroup)
 }
 
 
@@ -86,7 +86,7 @@ module ProdPeering './Template/Peering.bicep' = {
     allowGatewayTransit: false
     allowVirtualNetworkAccess: true
     remoteResourceGroup: 'rg-${companyPrefix}-network'
-    remoteVirtualNetworkName: 'vnet-${companyPrefix}-Hub'
+    remoteVirtualNetworkName: 'vnet-${companyPrefix}-prod'
     useRemoteGateways: false
     virtualNetworkName: ProdvNet.outputs.name
   }
@@ -95,19 +95,19 @@ module ProdPeering './Template/Peering.bicep' = {
   ]
   scope: resourceGroup(Prod_ResourceGroup)
 }
-module HubPeering './Template/Peering.bicep' = {
-  name: 'HubvNetPeering'
+module SharedservicePeering './Template/Peering.bicep' = {
+  name: 'SharedServicevNetPeering'
   params: {
     allowForwardedTraffic: true
     allowGatewayTransit: true
     allowVirtualNetworkAccess: true
     remoteResourceGroup: 'rg-${companyPrefix}-network'
-    remoteVirtualNetworkName: 'vnet-${companyPrefix}-Prod'
+    remoteVirtualNetworkName: 'vnet-${companyPrefix}-Hub'
     useRemoteGateways: false
-    virtualNetworkName: HubvNet.outputs.name
+    virtualNetworkName: ProdvNet.outputs.name
   }
   dependsOn: [
     ProdPeering
   ]
-  scope: resourceGroup(Network_ResourceGroup)
+  scope: resourceGroup(Hub_ResourceGroup)
 }
