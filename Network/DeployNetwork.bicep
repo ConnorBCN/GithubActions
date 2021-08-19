@@ -1,10 +1,9 @@
-
 targetScope = 'subscription'
 param companyPrefix string = 'bicep'
 var Location = 'Uk West'
-var Hub_ResourceGroup = 'rg-${companyPrefix}-Network'
+var Hub_ResourceGroup = 'rg-${companyPrefix}network'
 var Hub_vNet_Name = 'vnet-${companyPrefix}-Hub'
-var Hub_vNet_Prefix = '10.16.0.0/16'
+var Hub_vNet_Prefix = '172.16.0.0/16'
 var Hub_vNet_Subnets = [
   {
     name: 'GatewaySubnet'
@@ -17,13 +16,13 @@ var Hub_vNet_Subnets = [
   {
     name: 'snet-${companyPrefix}-SharedResources'
     prefix: '10.16.2.0/24'
-  }    
+  }       
 ]
-//var Test_vNet_dnsServers = [
- // '192.168.10.10'
-//]
-var Prod_ResourceGroup = 'rg-${companyPrefix}-Network'
-var Prod_vNetName = 'vnet-${companyPrefix}-Production'
+///var Hub_vNet_dnsServers = [
+///  '192.168.10.10'
+///]
+var Prod_ResourceGroup = 'rg-${companyPrefix}network'
+var Prod_vNetName = 'vnet-${companyPrefix}-Prod'
 var Prod_vNet_Prefix = '10.17.0.0/16'
 var Prod_vNet_Subnets = [
   {
@@ -38,11 +37,11 @@ var Prod_vNet_Subnets = [
     name: 'snet-${companyPrefix}-Application'
     prefix: '10.17.3.0/24'
   }
-]
-//var My_vNet_dnsServers = [
-  //'192.168.10.10'
-//]
 
+]
+///var Prod_vNet_dnsServers = [
+///  '192.168.10.10'
+///]
 
 
 
@@ -95,6 +94,7 @@ module ProdPeering './Template/Peering.bicep' = {
   ]
   scope: resourceGroup(Prod_ResourceGroup)
 }
+
 module HubPeering './Template/Peering.bicep' = {
   name: 'HubvNetPeering'
   params: {
