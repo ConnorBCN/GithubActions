@@ -9,7 +9,7 @@ module virtualNetworkGateway './Template/VirtualNetworkGateway.bicep' = {
     sku: 'Basic'
     SubnetName: 'GatewaySubnet'
     virtualNetworkGatewayName: 'vng-sharedservices-001'
-    VirtualNetworkName: 'vnet-bicep-sharedservices-001'
+    VirtualNetworkName: 'vnet-bicep-Test-001'
     vpnType: 'RouteBased'
   }
 }
