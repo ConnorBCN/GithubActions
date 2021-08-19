@@ -4,7 +4,7 @@ name: CI
 on:
   # Triggers the workflow on push or pull request events but only for the main branch
   push:
-    branches: [ Rg_and_Vnet ]
+    branches: [ VPN ]
   pull_request:
     branches: [ main ]
  
@@ -38,3 +38,13 @@ jobs:
         subscriptionId: 36488cb1-7df3-42aa-b050-30d1dc788dce
         region: Uk West
         template: ./Network/DeployNetwork.bicep
+
+    - name: Deploy VPN connection
+      uses: azure/arm-deploy@main
+      with:
+        scope: resourcegroup
+        resourceGroupName: rg-bicep-Network
+        subscriptionId: ${{ secrets.AZURE_SUBSCRIPTION }}
+        region: Uk West
+        template: ./Network/DeployVPN.bicep
+        deploymentMode: incremental

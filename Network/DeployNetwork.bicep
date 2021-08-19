@@ -1,43 +1,47 @@
-
 targetScope = 'subscription'
 param companyPrefix string = 'bicep'
 var Location = 'Uk West'
-var Test_ResourceGroup = 'rg-${companyPrefix}-Network'
-var Test_vNet_Name = 'vnet-${companyPrefix}-Test-001'
-var Test_vNet_Prefix = '10.16.0.0/16'
-var Test_vNet_Subnets = [
+var Hub_ResourceGroup = 'rg-${companyPrefix}-network'
+var Hub_vNet_Name = 'vnet-${companyPrefix}-Hub'
+var Hub_vNet_Prefix = '10.16.0.0/16'
+var Hub_vNet_Subnets = [
   {
     name: 'GatewaySubnet'
     prefix: '10.16.0.0/26'
   }
   {
-    name: 'snet-sharedservices-adds-001'
-    prefix: '10.16.0.64/26'
-  }      
+    name: 'snet-${companyPrefix}-DomainServices'
+    prefix: '10.16.1.0/24'
+  }  
+  {
+    name: 'snet-${companyPrefix}-SharedResources'
+    prefix: '10.16.2.0/24'
+  }       
 ]
-//var Test_vNet_dnsServers = [
- // '192.168.10.10'
-//]
-var My_ResourceGroup = 'rg-${companyPrefix}-Network'
-var My_vNetName = 'vnet-${companyPrefix}-001'
-var My_vNet_Prefix = '10.17.0.0/16'
-var My_vNet_Subnets = [
+///var Hub_vNet_dnsServers = [
+///  '192.168.10.10'
+///]
+var Prod_ResourceGroup = 'rg-${companyPrefix}-network'
+var Prod_vNetName = 'vnet-${companyPrefix}-Prod'
+var Prod_vNet_Prefix = '10.17.0.0/16'
+var Prod_vNet_Subnets = [
   {
-    name: 'snet-001'
-    prefix: '10.17.0.0/26'
-  }
-  {
-    name: 'snet-002'
+    name: 'snet-${companyPrefix}-AVD'
     prefix: '10.17.1.0/24'
   }
   {
-    name: 'snet--003'
+    name: 'snet-${companyPrefix}-Workload'
     prefix: '10.17.2.0/24'
   }
+  {
+    name: 'snet-${companyPrefix}-Application'
+    prefix: '10.17.3.0/24'
+  }
+
 ]
-//var My_vNet_dnsServers = [
-  //'192.168.10.10'
-//]
+///var Prod_vNet_dnsServers = [
+///  '192.168.10.10'
+///]
 
 
 
@@ -45,65 +49,65 @@ var My_vNet_Subnets = [
 
 
 
-
-module MyvNet './Template/vNet.bicep' = {
-  name: 'My-vNet-Deployment'
+module ProdvNet './Template/vNet.bicep' = {
+  name: 'Prod-vNet-Deployment'
   params: {
     //dnsServers: vNet_dnsServers
      Location: Location
-     Subnets: My_vNet_Subnets
-     Name: My_vNetName
-     Prefix: My_vNet_Prefix
+     Subnets: Prod_vNet_Subnets
+     Name: Prod_vNetName
+     Prefix: Prod_vNet_Prefix
   }
   dependsOn: [
-    TestvNet
+    HubvNet
   ]
-  scope: resourceGroup(My_ResourceGroup)
+  scope: resourceGroup(Prod_ResourceGroup)
 }
  
-module TestvNet './Template/vNet.bicep' = {
-  name: 'Test-vNet-Deployment'
+module HubvNet './Template/vNet.bicep' = {
+  name: 'Hub-vNet-Deployment'
   params: {
     //dnsServers: vNet_dnsServers
      Location: Location
-     Subnets: Test_vNet_Subnets
-     Name: Test_vNet_Name
-     Prefix: Test_vNet_Prefix
+     Subnets: Hub_vNet_Subnets
+     Name: Hub_vNet_Name
+     Prefix: Hub_vNet_Prefix
   }
-  scope: resourceGroup(Test_ResourceGroup)
+  scope: resourceGroup(Hub_ResourceGroup)
 }
 
 
 
-module MyPeering './Template/Peering.bicep' = {
-  name: 'MyvNetPeering'
+module ProdPeering './Template/Peering.bicep' = {
+  name: 'ProdvNetPeering'
   params: {
     allowForwardedTraffic: true
     allowGatewayTransit: false
     allowVirtualNetworkAccess: true
-    remoteResourceGroup: 'rg-${companyPrefix}-network'
-    remoteVirtualNetworkName: 'vnet-${companyPrefix}-Test-001'
+    remoteResourceGroup: 'rg-${companyPrefix}-Network'
+    remoteVirtualNetworkName: 'vnet-${companyPrefix}-Hub'
     useRemoteGateways: false
-    virtualNetworkName: MyvNet.outputs.name
+    virtualNetworkName: ProdvNet.outputs.name
   }
   dependsOn: [
-    MyvNet
+    ProdvNet
   ]
-  scope: resourceGroup(My_ResourceGroup)
+  scope: resourceGroup(Prod_ResourceGroup)
 }
-module TestPeering './Template/Peering.bicep' = {
-  name: 'TestvNetPeering'
+
+module HubPeering './Template/Peering.bicep' = {
+  name: 'HubvNetPeering'
   params: {
     allowForwardedTraffic: true
     allowGatewayTransit: true
     allowVirtualNetworkAccess: true
     remoteResourceGroup: 'rg-${companyPrefix}-network'
-    remoteVirtualNetworkName: 'vnet-${companyPrefix}-001'
+    remoteVirtualNetworkName: 'vnet-${companyPrefix}-Prod'
     useRemoteGateways: false
-    virtualNetworkName: TestvNet.outputs.name
+    virtualNetworkName: HubvNet.outputs.name
   }
   dependsOn: [
-    MyPeering
+    ProdPeering
   ]
-  scope: resourceGroup(Test_ResourceGroup)
+  scope: resourceGroup(Hub_ResourceGroup)
 }
