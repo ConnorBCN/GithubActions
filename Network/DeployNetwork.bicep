@@ -3,7 +3,7 @@ param companyPrefix string = 'bicep'
 var Location = 'Uk West'
 var Hub_ResourceGroup = 'rg-${companyPrefix}-network'
 var Hub_vNet_Name = 'vnet-${companyPrefix}-Hub'
-var Hub_vNet_Prefix = '172.16.0.0/16'
+var Hub_vNet_Prefix = '10.16.0.0/16'
 var Hub_vNet_Subnets = [
   {
     name: 'GatewaySubnet'
