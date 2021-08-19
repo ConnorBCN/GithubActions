@@ -85,7 +85,7 @@ module ProdPeering './Template/Peering.bicep' = {
     allowForwardedTraffic: true
     allowGatewayTransit: false
     allowVirtualNetworkAccess: true
-    remoteResourceGroup: 'rg-${companyPrefix}-network'
+    remoteResourceGroup: 'rg-${companyPrefix}-Hub'
     remoteVirtualNetworkName: 'vnet-${companyPrefix}-Hub'
     useRemoteGateways: false
     virtualNetworkName: ProdvNet.outputs.name
@@ -101,7 +101,7 @@ module HubPeering './Template/Peering.bicep' = {
     allowForwardedTraffic: true
     allowGatewayTransit: true
     allowVirtualNetworkAccess: true
-    remoteResourceGroup: 'rg-${companyPrefix}-network'
+    remoteResourceGroup: 'rg-${companyPrefix}-Prod'
     remoteVirtualNetworkName: 'vnet-${companyPrefix}-Prod'
     useRemoteGateways: false
     virtualNetworkName: HubvNet.outputs.name
