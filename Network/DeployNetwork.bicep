@@ -51,7 +51,7 @@ var Prod_vNet_Subnets = [
 
 
 module ProdvNet './Template/vNet.bicep' = {
-  name: 'My-vNet-Deployment'
+  name: 'Prod-vNet-Deployment'
   params: {
     //dnsServers: vNet_dnsServers
      Location: Location
@@ -66,7 +66,7 @@ module ProdvNet './Template/vNet.bicep' = {
 }
  
 module HubvNet './Template/vNet.bicep' = {
-  name: 'Test-vNet-Deployment'
+  name: 'Hub-vNet-Deployment'
   params: {
     //dnsServers: vNet_dnsServers
      Location: Location
@@ -102,7 +102,7 @@ module HubPeering './Template/Peering.bicep' = {
     allowGatewayTransit: true
     allowVirtualNetworkAccess: true
     remoteResourceGroup: 'rg-${companyPrefix}-network'
-    remoteVirtualNetworkName: 'vnet-${companyPrefix}-001'
+    remoteVirtualNetworkName: 'vnet-${companyPrefix}-Prod'
     useRemoteGateways: false
     virtualNetworkName: HubvNet.outputs.name
   }
