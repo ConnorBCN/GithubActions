@@ -50,7 +50,7 @@ var Prod_vNet_Subnets = [
 
 
 
-module MyvNet './Template/vNet.bicep' = {
+module ProdvNet './Template/vNet.bicep' = {
   name: 'My-vNet-Deployment'
   params: {
     //dnsServers: vNet_dnsServers
@@ -79,24 +79,24 @@ module HubvNet './Template/vNet.bicep' = {
 
 
 
-module MyPeering './Template/Peering.bicep' = {
-  name: 'MyvNetPeering'
+module ProdPeering './Template/Peering.bicep' = {
+  name: 'ProdvNetPeering'
   params: {
     allowForwardedTraffic: true
     allowGatewayTransit: false
     allowVirtualNetworkAccess: true
     remoteResourceGroup: 'rg-${companyPrefix}-network'
-    remoteVirtualNetworkName: 'vnet-${companyPrefix}-Test-001'
+    remoteVirtualNetworkName: 'vnet-${companyPrefix}-Hub'
     useRemoteGateways: false
-    virtualNetworkName: MyvNet.outputs.name
+    virtualNetworkName: ProdvNet.outputs.name
   }
   dependsOn: [
-    MyvNet
+    ProdvNet
   ]
   scope: resourceGroup(Prod_ResourceGroup)
 }
-module TestPeering './Template/Peering.bicep' = {
-  name: 'TestvNetPeering'
+module HubPeering './Template/Peering.bicep' = {
+  name: 'HubvNetPeering'
   params: {
     allowForwardedTraffic: true
     allowGatewayTransit: true
@@ -107,7 +107,7 @@ module TestPeering './Template/Peering.bicep' = {
     virtualNetworkName: HubvNet.outputs.name
   }
   dependsOn: [
-    MyPeering
+    ProdPeering
   ]
   scope: resourceGroup(Network_ResourceGroup)
 }
