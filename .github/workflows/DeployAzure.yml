@@ -47,4 +47,6 @@ jobs:
         subscriptionId: ${{ secrets.AZURE_SUBSCRIPTION }}
         region: Uk West
         template: ./Network/DeployVPN.bicep
+
         deploymentMode: incremental
+
