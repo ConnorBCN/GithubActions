@@ -48,3 +48,5 @@ jobs:
         region: Uk West
         template: ./Network/DeployVPN.bicep
         deploymentMode: incremental
+
+      

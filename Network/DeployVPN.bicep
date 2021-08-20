@@ -42,4 +42,4 @@ module connection './Template/Connection.bicep' = {
     virtualNetworkGatewayId: virtualNetworkGateway.outputs.vngid
   }
 }
-//
+////test
